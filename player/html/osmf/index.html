@@ -1,0 +1,361 @@
+<!DOCTYPE aspx PUBLIC "-//W3C//DTD aspx 4.01 Transitional//EN" "http://www.w3.org/TR/aspx4/loose.dtd">
+<!-- saved from url=(0026)http://www.envisioncn.com/ -->
+<html class="-webkit-"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+    
+    Envision - 远景能源
+
+</title>
+        <meta name="author" content="mangui">
+        <meta name="description" content="HLS Plugin for OSMF - GrindPlayer sample page">
+        <meta name="keywords" content="hls, osmf, m3u8, http live streaming, open source media framework, strobe media player, strobe media playback, strobemediaplayer, strobemediaplayback, apple hls, plugin, h264, H.264, x264, aac, mp3, flash, flashplayer, flash player, video, audio, mbr, multibitrate, multi bitrate, vod, video on demand, live, live stream, dvr, dvr stream, digital video recorder">
+
+        <script type="text/javascript" src="../libs/swfobject.js">
+        </script>
+        <script type="text/javascript" src="../libs/ParsedQueryString.js">
+        </script>
+        <!--script type="text/javascript" src="../../../playlists/streams.js">
+        </script--!>
+        <script type="text/javascript">
+
+var player = null;
+
+function loadStream(url) {
+  player.setMediaResourceURL(url);
+}
+
+function getlink(url) {
+  return "GrindPlayer.html?src=" + encodeURIComponent(url);
+}
+
+function listStreams(list, container) {
+  for(var i=0; i<list.length; i++) { var entry = document.createElement("li");
+    //entry.innerHTML = "<a href=" + getlink(list[i].file) + ">" +list[i].title+"</a>";
+    entry.innerHTML = "<a href='#' onclick='return loadStream(\""+list[i].file+"\")'>"+list[i].title+"</a>";    
+    document.getElementById(container).appendChild(entry);
+  }
+  //loadStream(list[0].file);
+}
+
+
+        function jsbridge(playerId, event, data) {
+          if (player == null) {
+            player = document.getElementById(playerId);
+          }
+          switch(event) {
+            case "onJavaScriptBridgeCreated":
+              listStreams(teststreams,"streamlist");
+              break;
+             case "timeChange":
+             case "timeupdate":
+             case "progress":
+               break;
+             default:
+              console.log(event, data);
+            }
+        }
+
+            // Collect query parameters in an object that we can
+            // forward to SWFObject:
+            
+            var pqs = new ParsedQueryString();
+            var parameterNames = pqs.params(false);
+            var parameters = {
+                //src: "http://streambox.fr/playlists/test_001/stream.m3u8",
+                //src: "http://zhenggl2.qiniudn.com/qiniu.m3u8",
+                autoPlay: "false",
+                verbose: true,
+                controlBarAutoHide: "true",
+                controlBarPosition: "bottom",
+                poster: "images/poster.png",
+                javascriptCallbackFunction: "jsbridge",
+                plugin_hls: "../../bin/release/flashlsOSMF.swf",
+                hls_minbufferlength: -1,
+                hls_maxbufferlength: 30,
+                hls_lowbufferlength: 3,
+                hls_seekmode: "SEGMENT",
+                hls_startfromlevel: -1,
+                hls_seekfromlevel: -1,
+                hls_live_flushurlcache: false,
+                hls_info: true,
+                hls_debug: false,
+                hls_debug2: false,
+                hls_warn: true,
+                hls_error: true,
+                hls_fragmentloadmaxretry : -1,
+                hls_manifestloadmaxretry : -1,
+                hls_capleveltostage : false,
+                hls_maxlevelcappingmode : "downscale"
+            };
+            
+            for (var i = 0; i < parameterNames.length; i++) {
+                var parameterName = parameterNames[i];
+                parameters[parameterName] = pqs.param(parameterName) ||
+                parameters[parameterName];
+            }
+            
+            var wmodeValue = "direct";
+            var wmodeOptions = ["direct", "opaque", "transparent", "window"];
+            if (parameters.hasOwnProperty("wmode"))
+            {
+                if (wmodeOptions.indexOf(parameters.wmode) >= 0)
+                {
+                    wmodeValue = parameters.wmode;
+                }                   
+                delete parameters.wmode;
+            }
+            
+            // Embed the player SWF:                
+            swfobject.embedSWF(
+                "GrindPlayer.swf"
+                , "GrindPlayer"
+                , 640
+                , 480
+                , "10.1.0"
+                , "expressInstall.swf"
+                , parameters
+                , {
+                    allowFullScreen: "true",
+                    wmode: wmodeValue
+                }
+                , {
+                    name: "GrindPlayer"
+                }
+            );
+            
+        </script>
+
+<style media="" data-href="css/Reset_CSS.css">@charset "UTF-8";
+/* CSS Document */
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)*/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, hr, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav,input, output,textarea, ruby, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+address,caption,cite,code,dfn,em,th,var{font-weight:normal}
+sup,sub{line-height:0px}
+sup{vertical-align:text-top}
+sub{vertical-align:text-bottom}
+a{text-decoration:none;}
+a:link{}
+a:hover{
+    color:#004a8f;}
+a:visited{}
+a:active{}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+    background:#E0FFFF; 
+    color:#E0FFFF
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+/* 清除浮动*/
+.clearfix:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;}
+.clearfix { display: inline-block; }
+html[xmlns] .clearfix { display: block; }
+* html .clearfix { height: 1%; }
+.justify_fix{display:inline-block; width:100%; height:0; overflow:hidden;}
+* {-webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+       -ms-box-sizing: border-box;
+        -o-box-sizing: border-box;
+           box-sizing: border-box;
+          }</style><style media="" data-href="css/style_cn.css">@charset "UTF-8";
+/* CSS Document */
+body{
+    font-family:"Microsoft Yahei","微软雅黑", Arial, Helvetica, sans-serif;
+    /*font-size:62.5%;*/
+    font-size:71.428%;
+    line-height:2em;
+    }
+a{
+    color:#33b4e5;}
+    
+.chromeframe{
+    position:absolute;
+    padding:25% 15%;
+    width:100%;
+    height:100%;
+    z-index:1000;
+    font-size:1.6em;
+    color:#333;
+    background:#fff;}
+.chromeframe a{
+    padding:10px 20px 15px;
+    line-height:40px;
+    font-weight:bold;
+    color:#fff;
+    background-color:#00a1de;
+    border-radius:6px;}
+.chromeframe a:hover{
+    background-color:#7ab800;}
+/* index begin */
+.header{
+    position:relative;
+    width:100%;
+    margin:0 auto;
+    padding:20px 40px;
+    background:#FFF;}
+.header .logo-envision{
+    position:relative;}
+.header ul.main-navi, .header ul.top-shortcut{
+    position:absolute;
+    right:40px;
+    }
+.header ul.top-shortcut{
+    top:50px;}
+.header ul.main-navi li, .header ul.top-shortcut li{
+    position:relative;
+    float:left;
+    margin-left:20px;}
+.header ul.main-navi li a{
+    font-size:1.2em;
+    color:#777;}
+.header ul.top-shortcut li a{
+    font-size:1.4em;
+    color:#00549f;}
+.header ul.main-navi li a:hover, .header ul.top-shortcut li a:hover{
+    color:#33b4e5;}
+    /*header end*/
+    /*content begin*/
+.main-content{
+    position:relative;
+    text-align: center;
+    }
+
+.footer{
+    position:relative;
+    width:100%;
+    background:#00549f;}
+.footer-info{
+    position:relative;
+    width:100%;
+    margin:0 auto;
+    padding:35px 40px 20px;}
+
+/*.social-media li a#footer-fb:hover{
+    background-position:-31px bottom;}*/
+.footer-right{
+    position:relative;
+    float:right;
+    margin-top:25px;}
+.footer-right p.language-version{
+    position:relative;
+    text-align:right;
+    padding-left:20px;
+    margin-bottom:5px;}
+.footer-right p.language-version img{
+    vertical-align:middle;}
+.footer-right p.language-version a{
+    margin-left:10px;
+    font-size:1.2em;
+    color:#fff;}
+.footer-right p.language-version a:hover{
+    color:#33b4e5;}
+.footer-right p.footernavi{
+    position:relative;
+    text-align:right;}
+.footer-right p.footernavi a{
+/*  padding:0 15px;*/
+    font-size:1.2em;
+    color:#fff;
+/*  border-right:1px solid #fff;*/}
+.footer-right p.footernavi a:hover{
+    color:#33b4e5;}
+/*.footer-right p.footernavi a:last-child{
+    padding-right:0;
+    border-right:none;}*/
+.footer-info p.copyright{
+    position:relative;
+    margin-top:10px;
+    font-size:1em;
+    color:#999;}
+/* index end */
+/*talents section begin*/
+
+.footer{
+    width:100%;}
+.footer-info{
+    width:100%;
+    padding:35px 3.33333% 20px;
+    }
+
+
+}</style>
+
+</head>
+<body >
+    
+    <!--[if lte IE 8]>
+        <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+    <![endif]-->
+    <div class="header">
+        <a href="http://www.envisioncn.com/index.aspx" class="logo-envision"><img src="images/logo_envision.png"></a>
+   
+    </div>
+    
+    <!--<iframe src="header.aspx" width="100%" height="96" scrolling=0 frameborder="0"></iframe>-->
+    <div class="main-content11" style="overflow: hidden; position: relative; width: 800px; height: 550.25px;left:20%;">
+        
+            <div id="slides11" style="overflow: hidden; display: block;" align="center">
+            
+                    <table width="100%" border="0" cellspacing="5" >
+                        <tr>
+                            <td>
+                                <div id="GrindPlayer">
+                                <p>
+                            Alternative content
+                                </p>
+                            </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <p>
+            </div>
+            <div style="margin-left:50px">
+                        <!--input id="userInput" value="输入播放地址" size="80"> <button onclick="userSubmit()">Play</button--!><br>
+                    </div>
+                                    <script type="text/javascript">
+function userSubmit() {
+  window.location = getlink(document.getElementById('userInput').value);
+}
+                        </script>   
+       
+    </div>
+    <div class="footer">
+        <div class="footer-info">
+            <p class="copyright">©Copyright 2014 Envision Energy Limited  &nbsp; &nbsp; &nbsp; &nbsp;苏ICP备11057395号-1</p>
+        </div>
+    </div>
+    
+</body></html>

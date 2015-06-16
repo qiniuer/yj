@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      charset="utf-8">
+<head>
+    <title>Envision 监控视频</title>
+    <script src="lib/jquery-1.11.0.min.js"></script>
+    <script src="lib/jquery.yuanjing.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="calendar/css/iframe.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="calendar/css/calendar.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="calendar/css/dashboard.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="calendar/css/i-heart-ny.css" media="screen" />
+    <style media="" data-href="css/Reset_CSS.css" type="text/css">@charset "UTF-8";
+
+    .header{
+    position:relative;
+    width:100%;
+    margin:0 auto;
+    padding:20px 40px;
+    background:#FFF;}
+.header .logo-envision{
+    position:relative;}
+.header ul.main-navi, .header ul.top-shortcut{
+    position:absolute;
+    right:40px;
+    }
+.header ul.top-shortcut{
+    top:50px;}
+.header ul.main-navi li, .header ul.top-shortcut li{
+    position:relative;
+    float:left;
+    margin-left:20px;}
+.header ul.main-navi li a{
+    font-size:1.2em;
+    color:#777;}
+.header ul.top-shortcut li a{
+    font-size:1.4em;
+    color:#00549f;}
+.header ul.main-navi li a:hover, .header ul.top-shortcut li a:hover{
+    color:#33b4e5;}
+    /*header end*/
+    /*content begin*/
+.footer{
+    position:relative;
+    width:100%;
+    background:#00549f;}
+.footer-info{
+    position:relative;
+    width:100%;
+    margin:0 auto;
+    padding:35px 40px 20px;}
+
+/*.social-media li a#footer-fb:hover{
+    background-position:-31px bottom;}*/
+.footer-right{
+    position:relative;
+    float:right;
+    margin-top:25px;}
+.footer-right p.language-version{
+    position:relative;
+    text-align:right;
+    padding-left:20px;
+    margin-bottom:5px;}
+.footer-right p.language-version img{
+    vertical-align:middle;}
+.footer-right p.language-version a{
+    margin-left:10px;
+    font-size:1.2em;
+    color:#fff;}
+.footer-right p.language-version a:hover{
+    color:#33b4e5;}
+.footer-right p.footernavi{
+    position:relative;
+    text-align:right;}
+.footer-right p.footernavi a{
+/*  padding:0 15px;*/
+    font-size:1.2em;
+    color:#fff;
+/*  border-right:1px solid #fff;*/}
+.footer-right p.footernavi a:hover{
+    color:#33b4e5;}
+/*.footer-right p.footernavi a:last-child{
+    padding-right:0;
+    border-right:none;}*/
+.footer-info p.copyright{
+    position:relative;
+    margin-top:10px;
+    font-size:1em;
+    color:#999;}
+/* index end */
+/*talents section begin*/
+
+.footer{
+    width:100%;}
+.footer-info{
+    width:100%;
+    padding:35px 3.33333% 20px;
+    }
+    </style>
+</head>
+<body onload="document.getElementById('search_submit').click()">
+<iframe   frameborder=0   border=0   src="../common/header.html" ></iframe>
+<!--  <div class='header'>
+    <a href='http://www.envisioncn.com/index.aspx' class='logo-envision'>
+    <img src="images/logo_envision.png"></a>
+-->
+</div>
+<form  role="search" id="search_form" data-url="../bin_php/yj_lsraw.php">
+    <div class="form-group">
+        <fieldset>
+    		<legend>Envision Video</legend>
+        	<button type="submit"  id="search_submit">刷新视频列表</button>
+        </fieldset>
+    </div>
+</form>
+<script>
+    function convert()
+    {
+	if (confirm("确认开始切片原视频，注意：切片一旦开始不能停止，切片成功后原视频将会被删除!") == true){
+		$.get("../bin_php/yj_mkseg.php");
+		alert("视频切片已经开始，请不要重复点击切片");
+		goto_video();
+	}
+    }
+
+    function goto_video()
+    {
+	window.location.href='./main.html';
+    }
+
+    var Setting = {}
+    Setting.reviewCallback = function(regArrayAll){
+        var html = "<div class='header'><a href='http://www.envisioncn.com/index.aspx' class='logo-envision'><img src='images/logo_envision.png'></a></div><div class='container' style='height: 500px'>"
+
+        var form = "<div id='mysarch'><form  role='search' id='search_form' data-url='search.xml'><div><fieldset><legend>Envision Video</legend><button type='submit'  id='search_submit' style='display:none;'>刷新视频列表</button><a href='javascript:convert();' target='new_windows2'><button type='button'>开始视频切片</button></a><button onclick='javascript:goto_video();'>播放视频列表</button></fieldset></div>"
+
+        var table = "<div id='result' style='height:400px' ><fieldset class='form-group'><legend>全部视频列表</legend><table id='video' border='1' text-align='center'><tr><td width='200px'>文件名</td><td width='200px'>播放</td></tr>"
+
+            html = html+ form + table
+
+
+        $.each(regArrayAll,function(){
+            html =  html + '<tr><td>'+this.content +'</td><td><a href="'+ this.url +'" target="new_window"><img src="images/play.JPG" width="20px"></a>'+'</td></tr>'
+
+        })
+        html = html + "</table></fieldset></div></div>"
+
+        var foot = "<div class='footer' ><div class='footer-info'><p class='copyright'>©Copyright 2014 Envision Energy Limited  &nbsp; &nbsp; &nbsp; &nbsp;苏ICP备11057395号-1</p></div></div>"
+        html = html + foot
+
+        $("body").html(html)
+    }
+    $("#search_form").siteSearch(Setting)
+</script>
+<div id="result" style='height:400px'></div>
+<div class="footer">
+        <div class="footer-info">
+            <p class="copyright">©Copyright 2014 Envision Energy Limited  &nbsp; &nbsp; &nbsp; &nbsp;苏ICP备11057395号-1</p>
+        </div>
+    </div>
+</body>
+</html>

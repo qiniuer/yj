@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      charset="utf-8">
+<head>
+    <title>Envision 监控视频</title>
+    <script src="lib/jquery-1.11.0.min.js"></script>
+	
+    <link rel="stylesheet" type="text/css" href="calendar/css/iframe.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="calendar/css/calendar.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="calendar/css/dashboard.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="calendar/css/i-heart-ny.css" media="screen" />
+    <style media="" data-href="css/Reset_CSS.css" type="text/css">@charset "UTF-8";
+
+    .header{
+    position:relative;
+    width:100%;
+    margin:0 auto;
+    padding:20px 40px;
+    background:#FFF;}
+.header .logo-envision{
+    position:relative;}
+.header ul.main-navi, .header ul.top-shortcut{
+    position:absolute;
+    right:40px;
+    }
+.header ul.top-shortcut{
+    top:50px;}
+.header ul.main-navi li, .header ul.top-shortcut li{
+    position:relative;
+    float:left;
+    margin-left:20px;}
+.header ul.main-navi li a{
+    font-size:1.2em;
+    color:#777;}
+.header ul.top-shortcut li a{
+    font-size:1.4em;
+    color:#00549f;}
+.header ul.main-navi li a:hover, .header ul.top-shortcut li a:hover{
+    color:#33b4e5;}
+    /*header end*/
+    /*content begin*/
+.footer{
+    position:relative;
+    width:100%;
+    background:#00549f;}
+.footer-info{
+    position:relative;
+    width:100%;
+    margin:0 auto;
+    padding:35px 40px 20px;}
+
+/*.social-media li a#footer-fb:hover{
+    background-position:-31px bottom;}*/
+.footer-right{
+    position:relative;
+    float:right;
+    margin-top:25px;}
+.footer-right p.language-version{
+    position:relative;
+    text-align:right;
+    padding-left:20px;
+    margin-bottom:5px;}
+.footer-right p.language-version img{
+    vertical-align:middle;}
+.footer-right p.language-version a{
+    margin-left:10px;
+    font-size:1.2em;
+    color:#fff;}
+.footer-right p.language-version a:hover{
+    color:#33b4e5;}
+.footer-right p.footernavi{
+    position:relative;
+    text-align:right;}
+.footer-right p.footernavi a{
+/*  padding:0 15px;*/
+    font-size:1.2em;
+    color:#fff;
+/*  border-right:1px solid #fff;*/}
+.footer-right p.footernavi a:hover{
+    color:#33b4e5;}
+/*.footer-right p.footernavi a:last-child{
+    padding-right:0;
+    border-right:none;}*/
+.footer-info p.copyright{
+    position:relative;
+    margin-top:10px;
+    font-size:1em;
+    color:#999;}
+/* index end */
+/*talents section begin*/
+
+.footer{
+    width:100%;}
+.footer-info{
+    width:100%;
+    padding:35px 3.33333% 20px;
+    }
+    </style>
+</head>
+<body>
+
+<script>
+
+function do_reset()
+{
+	if (confirm("确认重新设置密码？") == false){
+		return;
+	}
+
+        var usr = $("#usr").val();
+        var passwd = $("#passwd").val();
+	var passwd_n1 = $("#passwd_n1").val();
+	var passwd_n2 = $("#passwd_n2").val();
+
+	if (passwd_n1 != passwd_n2){
+		alert("error: 密码不一致");
+		return;
+	}
+
+        $.post("../bin_php/yj_uauth.php", {"op":"reset", "usr":usr, "passwd":passwd, "passwd_n1":passwd_n1}, function(result){
+                if (result != "0"){
+                        alert(result);
+                }else{
+                        alert("密码重置成功，页面将跳转...");
+                        window.location.href='./index.html';
+                }
+        });
+}
+
+function do_reg()
+{
+	if (confirm("确认创建新用户") == false){
+                return;
+        }
+
+        var usr = $("#new_usr").val();
+        var passwd = $("#new_passwd").val();
+        $.post("../bin_php/yj_uauth.php", {"op":"reg", "usr":usr, "passwd":passwd}, function(result){
+                if (result != "0"){
+                        alert(result);
+                }else{
+                        alert("注册成功，页面将跳转...");
+                        window.location.href='./index.html';
+                }
+        });
+}
+
+function goto_index()
+{
+	window.location.href='./index.html';
+}
+
+</script>
+
+<div class='header'><a href='http://www.envisioncn.com/index.aspx' class='logo-envision'><img src='images/logo_envision.png'></a></div>
+
+<table>
+        <tr>
+                <td>&nbsp;</td>
+                <td><button onclick="javascript:goto_index();" style="width:70px; height:20px">&lt;&lt;&lt; 返回</button>&nbsp;</td>
+		<td>&nbsp;</td>
+        </tr>
+</table>
+
+<table style="margin-left:40px; margin-top:20px;">
+	<tr>
+		<td>原用户：</td>
+		<td><input id="usr" type="text" width="200" /></td>
+	</tr>
+        <tr>
+                <td>原密码：</td>
+                <td><input id="passwd" type="password" width="200" /></td>
+        </tr>
+        <tr>
+                <td>新密码：</td>
+                <td><input id="passwd_n1" type="password" width="200" /></td>
+        </tr>
+        <tr>
+                <td>确认密码：</td>
+                <td><input id="passwd_n2" type="password" width="200" /></td>
+        </tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><button onclick="javascript:do_reset();" style="width:70px; height:20px">确认重置</button>&nbsp;</td>
+	</tr>
+</table>
+
+<table style="margin-left:40px; margin-top:20px;">
+        <tr>
+                <td>新建用户：</td>
+                <td><input id="new_usr" type="text" width="200" /></td>
+        </tr>
+        <tr>
+                <td>密码：</td>
+                <td><input id="new_passwd" type="password" width="200" /></td>
+        </tr>
+        <tr>
+		<td>&nbsp;</td>
+                <td><button onclick="javascript:do_reg();" style="width:70px; height:20px">确认注册</button>&nbsp;</td>
+        </tr>
+</table>
+
+
+<div id="result" style='height:300px'></div>
+<div class="footer">
+        <div class="footer-info">
+            <p class="copyright">©Copyright 2014 Envision Energy Limited  &nbsp; &nbsp; &nbsp; &nbsp;苏ICP备11057395号-1</p>
+        </div>
+    </div>
+</body>
+</html>

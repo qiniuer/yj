@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      charset="utf-8">
+<head>
+    <title>Envision 监控视频搜索</title>
+    <script src="lib/jquery-1.11.0.min.js"></script>
+    <script src="lib/jquery.yuanjing.js"></script>
+    <script type="text/javascript">
+    var jq=$.noConflict();
+    </script>
+    <script type="text/javascript" src="calendar/js/mootools.js"></script>
+    <script type="text/javascript" src="calendar/js/calendar.rc4.js"></script>
+    <script type="text/javascript">     
+    //<![CDATA[
+        window.addEvent('domready', function() { 
+            myCal1 = new Calendar({ date1: 'Y-m-d' }, { direction: 0, tweak: {x: 6, y: 0} });
+            
+        });
+    //]]>
+    </script>
+    <script type="text/javascript">
+
+    </script>
+    <link rel="stylesheet" type="text/css" href="calendar/css/iframe.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="calendar/css/calendar.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="calendar/css/dashboard.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="calendar/css/i-heart-ny.css" media="screen" />
+
+    <style media="" data-href="css/Reset_CSS.css" type="text/css">@charset "UTF-8";
+
+    .header{
+    position:relative;
+    width:100%;
+    margin:0 auto;
+    padding:20px 40px;
+    background:#FFF;}
+.header .logo-envision{
+    position:relative;}
+.header ul.main-navi, .header ul.top-shortcut{
+    position:absolute;
+    right:40px;
+    }
+.header ul.top-shortcut{
+    top:50px;}
+.header ul.main-navi li, .header ul.top-shortcut li{
+    position:relative;
+    float:left;
+    margin-left:20px;}
+.header ul.main-navi li a{
+    font-size:1.2em;
+    color:#777;}
+.header ul.top-shortcut li a{
+    font-size:1.4em;
+    color:#00549f;}
+.header ul.main-navi li a:hover, .header ul.top-shortcut li a:hover{
+    color:#33b4e5;}
+    /*header end*/
+    /*content begin*/
+.footer{
+    position:relative;
+    width:100%;
+    background:#00549f;}
+.footer-info{
+    position:relative;
+    width:100%;
+    margin:0 auto;
+    padding:35px 40px 20px;}
+
+/*.social-media li a#footer-fb:hover{
+    background-position:-31px bottom;}*/
+.footer-right{
+    position:relative;
+    float:right;
+    margin-top:25px;}
+.footer-right p.language-version{
+    position:relative;
+    text-align:right;
+    padding-left:20px;
+    margin-bottom:5px;}
+.footer-right p.language-version img{
+    vertical-align:middle;}
+.footer-right p.language-version a{
+    margin-left:10px;
+    font-size:1.2em;
+    color:#fff;}
+.footer-right p.language-version a:hover{
+    color:#33b4e5;}
+.footer-right p.footernavi{
+    position:relative;
+    text-align:right;}
+.footer-right p.footernavi a{
+/*  padding:0 15px;*/
+    font-size:1.2em;
+    color:#fff;
+/*  border-right:1px solid #fff;*/}
+.footer-right p.footernavi a:hover{
+    color:#33b4e5;}
+/*.footer-right p.footernavi a:last-child{
+    padding-right:0;
+    border-right:none;}*/
+.footer-info p.copyright{
+    position:relative;
+    margin-top:10px;
+    font-size:1em;
+    color:#999;}
+/* index end */
+/*talents section begin*/
+
+.footer{
+    width:100%;}
+.footer-info{
+    width:100%;
+    padding:35px 3.33333% 20px;
+    }
+    </style>
+    
+</head>
+<body>
+<div class='header'>
+    <a href='http://www.envisioncn.com/index.aspx' class='logo-envision'>
+    <img src="images/logo_envision.png"></a>
+</div>
+<form  role="search" id="search_form" data-url="../bin_php/yj_lsvideo.php">
+    <div class="form-group">
+        <fieldset>
+            <legend>Search Video</legend>
+            <label for="area1">地区</label>
+            <input type="text" id="area1" name="area1"  placeholder="请输入搜索关键字" />
+
+            <label for="date1">日期</label>
+            <input id="date1" name="date1" type="text" placeholder="请选择日期"  />
+
+            <button type="submit" id="search_submit" target="new_windows3" style="width:60px;height:20px;" >搜一下</button>
+        </fieldset>
+
+    </div>
+    
+</form>
+    
+<script>
+    var Setting = {};
+
+        function remove(key)
+        {
+		if (confirm("确认删除文件：" + key + "？") == false){
+			return;
+		}
+
+                jq.post("../bin_php/yj_rmseg.php", {"key":key}, function(result){
+                        if (result == "0"){
+                                alert("删除成功!");
+				var tr_id = key.replace(/\//gm,'').replace(/\./gm,'');
+				jq("#" + tr_id).remove();
+                        }else{
+                                alert("错误代码:" + result);
+                        }
+                });
+        }
+
+
+    Setting.reviewCallback = function(regArray){
+        var html = "<div class='header'><a href='http://www.envisioncn.com/index.aspx' class='logo-envision'><img src='images/logo_envision.png'></a></div><div class='container' style='height: 500px'>"
+        
+        var form = "<div id='mysarch'><form  role='search' id='search_form' data-url='search.xml'><div><fieldset><legend>Envision Video</legend><button type='submit'  id='search_submit' style='display:none;'>加载视频列表</button><a href='search.html' ><button type='button' >搜索视频</button></a></fieldset></div>"
+
+        var table = "<div id='result' style='height:400px' ><fieldset class='form-group'><legend>搜索视频列表</legend><table id='video' border='1' text-align='center'><tr><td width='200px' height='20px'>时间</td><td width='200px'>城市</td><td width='200px'>播放</td></tr>"
+
+            html = html+ form + table
+
+
+        jq.each(regArray,function(){
+	    var tr_id = this.key.replace(/\//gm,'').replace(/\./gm,'');
+            html =  html + '<tr id="' + tr_id + '"><td>'+this.time+'</td><td>'+this.area+'</td><td><a href="'+ this.url +'" class="col-md-7" target="new_window"><img src="images/play.JPG" width="20px"></a>    <a href="javascript:remove(' + "'" + this.key + "'" + ')"><img src="images/del.JPG" width="20px"></a>       '+'</td></tr>'
+
+        })
+        html = html + "</table></fieldset></div></div>"
+
+        var foot = "<div class='footer'><div class='footer-info'><p class='copyright'>©Copyright 2014 Envision Energy Limited  &nbsp; &nbsp; &nbsp; &nbsp;苏ICP备11057395号-1</p></div></div>"
+        html = html + foot
+        jq("body").html(html)
+    }
+    jq("#search_form").siteSearch(Setting)
+</script>
+<div id="result" style='height:400px'></div>
+<div class="footer">
+        <div class="footer-info">
+            <p class="copyright">©Copyright 2014 Envision Energy Limited  &nbsp; &nbsp; &nbsp; &nbsp;苏ICP备11057395号-1</p>
+        </div>
+    </div>
+</body>
+</html>

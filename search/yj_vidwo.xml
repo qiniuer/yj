@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<medias>
+
+<media>
+  <content>北京2015-03-04</content>
+  <url>http://101.71.89.157/src/player/html/osmf/?src=http://zhenggl2.qiniudn.com/christmas.m3u8</url>
+  <time>2015-03-04</time>
+  <area>北京</area>
+</media>
+
+<media>
+    <content>北京2015-03-03</content>
+    <url>http://101.71.89.157/src/player/html/osmf/?src=http://zhenggl2.qiniudn.com/christmas.m3u8</url>
+    <time>2015-03-03</time>
+    <area>北京</area>
+</media>
+
+<media>
+    <content>天津2015-03-03</content>
+    <url>http://101.71.89.157/src/player/html/osmf/?src=http://zhenggl2.qiniudn.com/christmas.m3u8</url>
+    <time>2015-03-03</time>
+    <area>天津</area>
+</media>
+
+</medias>
