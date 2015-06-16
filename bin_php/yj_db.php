@@ -28,6 +28,19 @@ function db_reinit()
           );"
     );
 
+    $db->exec(
+        "DROP TABLE IF EXISTS pfop;"
+    );
+
+    $db->exec(
+        "CREATE TABLE IF NOT EXISTS pfop
+          (
+            id INT(11) PRIMARY KEY,
+            key_origin VARCHAR(225),
+            fopid VARCHAR(225)
+          );"
+    );
+
     $name = 'admin';
     $pass = 'admin';
 
@@ -70,6 +83,19 @@ function db_rm_m3u8($new)
     global $db;
     $db->exec("DELETE FROM m3u8 where key_m3u8='$new'");
     
+}
+
+function db_write_pfop($key, $fopid)
+{
+    global $db;
+    $db->exec("INSERT INTO pfop(key_origin, fopid) VALUES ('$key', '$fopid')");
+}
+
+function db_read_pfop()
+{
+    global $db;
+    $sql = "SELECT key_origin, fopid FROM pfop;";
+    return $db->query($sql);
 }
 
 function db_write_user($name, $password)

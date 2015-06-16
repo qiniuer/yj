@@ -1,6 +1,7 @@
 <?php
 
 require_once 'yj_common.php';
+require_once 'yj_db.php';
 
 g_check_uauth();
 
@@ -23,6 +24,7 @@ function make_seg($key)
     if ($err != null) {
 	return array(0, $err);
     } else {
+	db_write_pfop($key, $id);
 	return array($id, null);
     }
 }
