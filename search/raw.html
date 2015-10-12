@@ -102,7 +102,7 @@
 <body onload="document.getElementById('search_submit').click()">
 <iframe   frameborder=0   border=0   src="../common/header.html" ></iframe>
 <!--  <div class='header'>
-    <a href='http://www.envisioncn.com/index.aspx' class='logo-envision'>
+    <a href='main.html' class='logo-envision'>
     <img src="images/logo_envision.png"></a>
 -->
 </div>
@@ -131,17 +131,17 @@
 
     var Setting = {}
     Setting.reviewCallback = function(regArrayAll){
-        var html = "<div class='header'><a href='http://www.envisioncn.com/index.aspx' class='logo-envision'><img src='images/logo_envision.png'></a></div><div class='container' style='height: 500px'>"
+        var html = "<div class='header'><a href='main.html' class='logo-envision'><img src='images/logo_envision.png'></a></div><div class='container' style='height: 500px'>"
 
         var form = "<div id='mysarch'><form  role='search' id='search_form' data-url='search.xml'><div><fieldset><legend>Envision Video</legend><button type='submit'  id='search_submit' style='display:none;'>刷新视频列表</button><a href='javascript:convert();' target='new_windows2'><button type='button'>开始视频切片</button></a><button onclick='javascript:goto_video();'>播放视频列表</button></fieldset></div>"
 
-        var table = "<div id='result' style='height:400px' ><fieldset class='form-group'><legend>全部视频列表</legend><table id='video' border='1' text-align='center'><tr><td width='200px'>文件名</td><td width='200px'>播放</td></tr>"
+        var table = "<div id='result' style='height:400px' ><fieldset class='form-group'><legend>全部视频列表</legend><table id='video' border='1' text-align='center'><tr><td width='200px'>文件名</td><td width='200px'>播放</td><td width='200px'>查询进度</td></tr>"
 
             html = html+ form + table
 
 
         $.each(regArrayAll,function(){
-            html =  html + '<tr><td>'+this.content +'</td><td><a href="'+ this.url +'" target="new_window"><img src="images/play.JPG" width="20px"></a>'+'</td></tr>'
+            html =  html + '<tr><td>'+this.content +'</td><td><a href="'+ this.url +'" target="new_window"><img src="images/play.JPG" width="20px"></a>'+'</td>' + '<td><a href="http://api.qiniu.com/status/get/prefop?id=' + this.time + '" target="new_window">' + this.time + '</a></td>' + '</tr>'
 
         })
         html = html + "</table></fieldset></div></div>"
