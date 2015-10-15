@@ -1,6 +1,7 @@
 <?php
 
 require_once 'yj_common.php';
+require_once 'yj_db.php';
 
 g_check_uauth();
 
@@ -40,13 +41,23 @@ $key = '';
 for ($i = 0; $i < count($items); $i++) {
     $key = $items[$i]['key'];
 
+    // key
     $str .= '<media>';
     $str .= '<content><![CDATA[' .$key. ']]></content>';
 
+    // url
     $player = 'http://' . $g_host. '/player/html/osmf/?src=';
     $url = $player . $g_bucket_site . $key;
 
     $str .= '<url><![CDATA[' .$url. ']]></url>';
+
+    // pfop id
+    $fopid = db_read_fopid($key);
+    $progress_query_str = '';
+    if (fopid != '') {
+        $progress_query_str = $fopid;
+    }
+    $str .= '<time><![CDATA[' .$progress_query_str. ']]></time>';
 
     $str .= '</media>';
 }

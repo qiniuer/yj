@@ -98,6 +98,18 @@ function db_read_pfop()
     return $db->query($sql);
 }
 
+function db_read_fopid($key)
+{
+    global $db;
+    $sql = "SELECT fopid FROM pfop where key_origin='$key'";
+
+    $id = "";
+    foreach ($db->query($sql) as $row) {
+        $id = $row['fopid'];
+    }
+    return $id;
+}
+
 function db_write_user($name, $password)
 {
     global $db;
