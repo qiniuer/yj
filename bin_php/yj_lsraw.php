@@ -46,7 +46,7 @@ for ($i = 0; $i < count($items); $i++) {
     $str .= '<content><![CDATA[' .$key. ']]></content>';
 
     // url
-    $player = 'http://' . $g_host. '/player/html/osmf/?src=';
+    $player = $g_host. '/player/html/osmf/?src=';
     $url = $player . $g_bucket_site . $key;
 
     $str .= '<url><![CDATA[' .$url. ']]></url>';
